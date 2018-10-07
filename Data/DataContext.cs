@@ -14,12 +14,14 @@ namespace Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TestObject>();
+            modelBuilder.Entity<TestObject1>();
         }
 
-        public virtual DbSet<TestObject> TestObjects { get; set; }
+        //public virtual DbSet<TestObject> TestObjects { get; set; }
     }
-    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
+    public sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {

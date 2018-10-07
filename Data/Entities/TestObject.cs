@@ -6,4 +6,9 @@ namespace Data.Entities
     {
         public int TestField { get; set; }
     }
+
+    public class TestObject1 : BaseEntity
+    {
+        public int TestField { get; set; }
+    }
 }
