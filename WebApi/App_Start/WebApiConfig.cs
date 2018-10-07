@@ -1,16 +1,17 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http.Headers;
+using System.Web.Http;
 
 namespace WebApi
 {
     public static class WebApiConfig
     {
-        public static HttpConfiguration Register()
+        public static HttpConfiguration Register(HttpConfiguration config)
         {
-            HttpConfiguration config = new HttpConfiguration();
             // Web API configuration and services
 
             // Web API routes
-
+            config.Formatters.JsonFormatter.SupportedMediaTypes
+            .Add(new MediaTypeHeaderValue("text/html"));
             config.EnableCors();
             config.MapHttpAttributeRoutes();
 

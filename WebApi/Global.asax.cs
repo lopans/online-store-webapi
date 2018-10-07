@@ -8,7 +8,23 @@ namespace WebApi
     {
         protected void Application_Start()
         {
+            //var container = new Container();
+            //container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            //// Register your types, for instance using the scoped lifestyle:
+            //container.Register<ITestObjectService, TestObjectService>(Lifestyle.Scoped);
+
+            //// This is an extension method from the integration package.
+            //container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
+
+            //container.Verify();
+
+            //GlobalConfiguration.Configuration.DependencyResolver =
+            //    new SimpleInjectorWebApiDependencyResolver(container);
+
+
             AreaRegistration.RegisterAllAreas();
+            //SimpleInjectorConfig.Configure();
             //GlobalConfiguration.Configure(Startup.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

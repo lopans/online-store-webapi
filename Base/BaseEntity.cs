@@ -1,16 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Base.DAL
 {
+    [Serializable]
+    //[DataContract]
+    [JsonObject]
+
     public abstract class BaseEntity : IBaseEntity
     {
         [Key]
-        [DataMember]
+        //[DataMember]
         public int ID { get; set; }
-        [DataMember]
+        //[DataMember]
         public bool Hidden { get; set; }
-        [DataMember]
+        //[DataMember]
         public double SortOrder { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }

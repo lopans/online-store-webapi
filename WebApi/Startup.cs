@@ -1,8 +1,10 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using SimpleInjector.Integration.WebApi;
 using System;
 using System.Data.Entity.Migrations;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(WebApi.Startup))]
 namespace WebApi
@@ -11,8 +13,16 @@ namespace WebApi
     {
         public void Configuration(IAppBuilder app)
         {
-            // token generation
-            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+
+            var container = SimpleInjectorConfig.Configure(); // Initialise container
+
+            HttpConfiguration config = new HttpConfiguration
+            {
+                DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
+            };
+
+        // token generation
+        app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = false,
 
@@ -23,7 +33,7 @@ namespace WebApi
             // token consumption
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-            app.UseWebApi(WebApiConfig.Register());
+            app.UseWebApi(WebApiConfig.Register(config));
             MigrateDB();
         }
 
