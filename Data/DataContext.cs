@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Data.Entities.Store;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 
@@ -17,6 +18,12 @@ namespace Data
             //base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TestObject>();
             modelBuilder.Entity<TestObject1>();
+
+            modelBuilder.Entity<Category>();
+            modelBuilder.Entity<SubCategory>();
+            modelBuilder.Entity<Item>();
+            modelBuilder.Entity<SaleItem>();
+            //modelBuilder.Entity<SubCategoryItem>();
         }
 
         //public virtual DbSet<TestObject> TestObjects { get; set; }
