@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Base.DAL;
+using Data.Entities;
 using Data.Entities.Store;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
@@ -20,6 +21,7 @@ namespace Data
             modelBuilder.Entity<TestObject1>();
 
             modelBuilder.Entity<Category>();
+            modelBuilder.Entity<FileData>();
             modelBuilder.Entity<SubCategory>();
             modelBuilder.Entity<Item>();
             modelBuilder.Entity<SaleItem>();
