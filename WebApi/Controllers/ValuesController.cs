@@ -13,6 +13,7 @@ namespace WebApi.Controllers
             _testObjectService = testObjectService;
         }
         // GET api/values
+        [Route("v/1")]
         public async Task<IHttpActionResult> Get()
         {
             using(var uofw = UnitOfWork)

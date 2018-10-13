@@ -7,19 +7,18 @@ namespace WebApi
     {
         public static HttpConfiguration Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            config.MapHttpAttributeRoutes();
 
-            // Web API routes
             config.Formatters.JsonFormatter.SupportedMediaTypes
             .Add(new MediaTypeHeaderValue("text/html"));
             config.EnableCors();
-            config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                name: "ControllersApi",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
             return config;
         }
     }

@@ -20,12 +20,12 @@ namespace WebApi
             {
                 DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
             };
+            app.UseWebApi(WebApiConfig.Register(config));
 
-        // token generation
-        app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            // token generation
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = false,
-
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromHours(8),
             });
@@ -33,7 +33,6 @@ namespace WebApi
             // token consumption
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-            app.UseWebApi(WebApiConfig.Register(config));
             MigrateDB();
         }
 
