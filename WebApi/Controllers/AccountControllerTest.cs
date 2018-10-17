@@ -1,6 +1,7 @@
 ﻿using Base.Exceptions;
 using Security.Services;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace WebApi.Controllers
@@ -29,9 +30,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("test")]
         public async Task<IHttpActionResult> Test()
         {
+            var aa = HttpContext.Current.GetOwinContext().Authentication.User;
             return Ok("done");
         }
     }

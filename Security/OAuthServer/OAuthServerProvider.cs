@@ -15,26 +15,29 @@ namespace Security.OAuthServer
     {
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            string clId, clSecret;
-            if (context.TryGetFormCredentials(out clId, out clSecret))
-            {
-                // validate the client Id and secret against database or from configuration file.  
-                context.Validated();
-            }
-            else if (context.TryGetBasicCredentials(out clId, out clSecret))
-            {
-                // validate the client Id and secret against database or from configuration file.  
-                context.Validated();
-            }
-            else
-            {
-                context.SetError("invalid_client", "Client credentials could not be retrieved from the Authorization header");
-                context.Rejected();
-            }
+            //string clId, clSecret;
+            //if (context.TryGetFormCredentials(out clId, out clSecret))
+            //{
+            //    // validate the client Id and secret against database or from configuration file.  
+            //    context.Validated();
+            //}
+            //else if (context.TryGetBasicCredentials(out clId, out clSecret))
+            //{
+            //    // validate the client Id and secret against database or from configuration file.  
+            //    context.Validated();
+            //}
+            //else
+            //{
+            //    context.SetError("invalid_client", "Client credentials could not be retrieved from the Authorization header");
+            //    context.Rejected();
+            //}
+            context.Validated();
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+
             UserManager<User> userManager = context.OwinContext.GetUserManager<UserManager<User>>();
             User user;
             try
@@ -60,6 +63,19 @@ namespace Security.OAuthServer
                 context.SetError("invalid_grant", "Invalid User Id or password'");
                 context.Rejected();
             }
+        }
+
+        public override Task MatchEndpoint(OAuthMatchEndpointContext context)
+        {
+            if (context.IsTokenEndpoint && context.Request.Method == "OPTIONS")
+            {
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "authorization" });
+                context.RequestCompleted();
+                return Task.FromResult(0);
+            }
+
+            return base.MatchEndpoint(context);
         }
     }
 }
