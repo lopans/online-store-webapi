@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\SecurityException.cs" />
     <Compile Include="FileData.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="IBaseEntity.cs" />

@@ -1,6 +1,7 @@
 ﻿using Base.DAL;
 using Data.Entities;
 using Data.Entities.Store;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 

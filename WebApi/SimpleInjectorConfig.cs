@@ -1,5 +1,6 @@
 ﻿using Base.Services;
 using Data.Services;
+using Security.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
 using SimpleInjector.Lifestyles;
@@ -15,10 +16,12 @@ namespace WebApi
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
             // Register your types, for instance using the scoped lifestyle:
+#region DATA
             container.Register(typeof(IBaseService<>), typeof(BaseService<>), Lifestyle.Singleton);
             container.Register<ITestObjectService, TestObjectService>(Lifestyle.Singleton);
             container.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
-
+            #endregion
+            container.Register<IAuthenticationService, AuthenticationService>(Lifestyle.Singleton);
 
             // This is an extension method from the integration package.
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
