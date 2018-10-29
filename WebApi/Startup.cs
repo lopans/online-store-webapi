@@ -26,7 +26,6 @@ namespace WebApi
             {
                 DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
             };
-            app.UseWebApi(WebApiConfig.Register(config));
             app.CreatePerOwinContext(() => new Security.SecurityContext());
             app.CreatePerOwinContext<UserManager<User>>(CreateManager);
 
@@ -42,7 +41,7 @@ namespace WebApi
 
             // token consumption
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
+            app.UseWebApi(WebApiConfig.Register(config));
             MigrateDB();
         }
 
