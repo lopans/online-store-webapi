@@ -5,6 +5,7 @@ using Security.Services;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Base.Utils;
 
 namespace WebApi.Controllers
 {
@@ -23,11 +24,15 @@ namespace WebApi.Controllers
             using(var uofw = CreateUnitOfWork)
             {
                 var obj = _testObjectService.Create(uofw, new TestObject() { Title = "Old title", Number = 5 });
-                var dto = new { Title = "DTO Text", Number = -7 };
-                uofw.GetRepository<TestObject>().SetFromObject(obj.ID, dto);
+                //var dto = new { Title = "DTO Text", Number = -7 };
+                //uofw.GetRepository<TestObject>().SetFromObject(obj.ID, dto);
+                obj.ChangeProperty(uofw, x => x.Number, 10)
+                    .ChangeProperty(uofw, x => x.Title, "Eureka!");
 
+
+                _testObjectService.Update(uofw, obj);
                 await uofw.SaveChangesAsync();
-                return Ok(new { obj, dto });
+                return Ok(new { obj });
             }
             
         }

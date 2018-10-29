@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Base.DAL;
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -29,6 +30,15 @@ namespace Base.Utils
                     property.SetValue(target, value, null);
                 }
             }
+        }
+
+        public static T ChangeProperty<T, TProperty>(this T entity, IUnitOfWork uofw, 
+            Expression<Func<T, TProperty>> propFunc,
+            TProperty value) where T: BaseEntity
+        {
+            if (entity.ID == 0)
+                throw new ArgumentException("ID must be greater than zero", "entity");
+            return uofw.GetRepository<T>().ChangeProperty(entity.ID, propFunc, value, entity.RowVersion, entity);
         }
     }
 }

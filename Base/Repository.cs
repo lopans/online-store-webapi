@@ -32,7 +32,7 @@ namespace Base
             TProperty value, byte[] rowVersion = null, T previousState = null)
         {
             var obj = previousState ?? Activator.CreateInstance<T>();
-            if (previousState != null)
+            if (previousState == null)
             {
                 obj.ID = id;
                 obj.RowVersion = rowVersion ?? All().Where(x => x.ID == id).Select(x => x.RowVersion).Single();
