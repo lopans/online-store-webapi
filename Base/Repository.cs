@@ -24,20 +24,34 @@ namespace Base
 
         public void Attach(T t)
         {
-            DbSet.Attach(t);
+            if(!DbSet.Local.Any(x => x.ID == t.ID))
+                DbSet.Attach(t);
         }
 
-        public void ChangeProperty<TProperty>(int id, Expression<Func<T, TProperty>> propFunc, TProperty value, byte[] rowVersion = null)
+        public T ChangeProperty<TProperty>(int id, Expression<Func<T, TProperty>> propFunc,
+            TProperty value, byte[] rowVersion = null, T previousState = null)
         {
-            var obj = Activator.CreateInstance<T>();
-            obj.ID = id;
-            obj.RowVersion = rowVersion ?? All().Where(x => x.ID == id).Select(x => x.RowVersion).Single();
+            var obj = previousState ?? Activator.CreateInstance<T>();
+            if (previousState != null)
+            {
+                obj.ID = id;
+                obj.RowVersion = rowVersion ?? All().Where(x => x.ID == id).Select(x => x.RowVersion).Single();
+            }
 
             Attach(obj);
-
             obj.SetPropertyValue(propFunc, value);
 
             _context.Entry(obj).Property(propFunc).IsModified = true;
+            return obj;
+        }
+
+        public void SetFromObject<TObject>(int id, TObject instance)
+        {
+            var obj = All().Where(x => x.ID == id).SingleOrDefault();
+            if (obj == null)
+                throw new Exception("Object not found or it is dublicate");
+            Attach(obj);
+            _context.Entry(obj).CurrentValues.SetValues(instance);
         }
 
         public T Create(T t)

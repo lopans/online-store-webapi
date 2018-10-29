@@ -16,9 +16,11 @@ namespace Base
 
         void Attach(T t);
         void Detach(T t);
-        void ChangeProperty<TProperty>(int id, 
+        T ChangeProperty<TProperty>(int id, 
             Expression<Func<T, TProperty>> propFunc, 
             TProperty value, 
-            byte[] rowVersion = null);
+            byte[] rowVersion = null,
+            T previousState = null);
+        void SetFromObject<TObject>(int id, TObject instance);
     }
 }

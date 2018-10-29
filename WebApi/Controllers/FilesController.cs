@@ -29,7 +29,7 @@ namespace WebApi.Controllers
         public async Task<HttpResponseMessage> GetFile(Guid fileid)
         {
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            using (var uofw = UnitOfWork)
+            using (var uofw = CreateUnitOfWork)
             {
                 Stream stream;
                 try

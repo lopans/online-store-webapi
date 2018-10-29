@@ -16,12 +16,12 @@ namespace WebApi.Controllers
     {
         private IUnitOfWork uofw;
         private IUnitOfWork suofw;
-        public IUnitOfWork UnitOfWork
+        public IUnitOfWork CreateUnitOfWork
         {
             get => uofw ?? new UnitOfWork(new DataContext());
         }
 
-        public IUnitOfWork SecurityUnitOfWork
+        public IUnitOfWork CreateSecurityUnitOfWork
         {
             get => suofw ?? new UnitOfWork(new Security.SecurityContext());
         }

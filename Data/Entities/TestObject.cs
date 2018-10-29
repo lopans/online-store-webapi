@@ -4,7 +4,8 @@ namespace Data.Entities
 {
     public class TestObject: BaseEntity
     {
-        public int TestField { get; set; }
+        public int Number { get; set; }
+        public string Title { get; set; }
     }
 
     public class TestObject1 : BaseEntity
