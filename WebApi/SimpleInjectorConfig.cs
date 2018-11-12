@@ -1,4 +1,5 @@
 ﻿using Base.Services;
+using Base.Services.Media;
 using Data.Services;
 using Security.Services;
 using SimpleInjector;

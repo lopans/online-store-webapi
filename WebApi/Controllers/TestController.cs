@@ -26,10 +26,11 @@ namespace WebApi.Controllers
                 var obj = _testObjectService.Create(uofw, new TestObject() { Title = "Old title", Number = 5 });
                 //var dto = new { Title = "DTO Text", Number = -7 };
                 //uofw.GetRepository<TestObject>().SetFromObject(obj.ID, dto);
-                obj.ChangeProperty(uofw, x => x.Number, 10)
-                    .ChangeProperty(uofw, x => x.Title, "Eureka!");
+                //obj.ChangeProperty(uofw, x => x.Number, 10)
+                //    .ChangeProperty(uofw, x => x.Title, "Eureka!");
 
-
+                obj.Number = 15;
+                obj.Title = "jopa";
                 _testObjectService.Update(uofw, obj);
                 await uofw.SaveChangesAsync();
                 return Ok(new { obj });

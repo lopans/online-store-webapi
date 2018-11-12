@@ -1,10 +1,12 @@
 ﻿using Base.DAL;
+using System.Collections.Specialized;
+using ImageResizer;
 using System;
 using System.Data.Entity;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Base.Services
+namespace Base.Services.Media
 {
     public interface IFileSystemService
     {
@@ -67,7 +69,15 @@ namespace Base.Services
             var filepath = Path.Combine(GetFolder(file), file.FileID.ToString()) + "." + file.Extension;
             if(!File.Exists(filepath))
                 throw new FileNotFoundException();
+            //using(var ms = new MemoryStream())
+            //{
+            //    System.Drawing.Image img = System.Drawing.Image.FromFile(filepath);
+            //    var sizeParam = img.Width >= img.Height ? "width" : "heigth";
+            //    var instructions = new NameValueCollection();
+            //    instructions.Add(sizeParam, ResizeSettings)
+            //    ImageJob job = new ImageJob(filepath, ms, new ResizeSettings()
 
+            //}
             return File.Open(filepath, FileMode.Open);
         }
 
