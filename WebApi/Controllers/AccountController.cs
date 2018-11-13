@@ -34,8 +34,25 @@ namespace WebApi.Controllers
         [Route("test")]
         public async Task<IHttpActionResult> Test()
         {
-            var aa = HttpContext.Current.GetOwinContext().Authentication.User;
+            var aa = HttpContext.Current.GetOwinContext().Authentication.User.Identity;
             return Ok("done");
+        }
+
+        [HttpPost]
+        [Route("tinyProfile")]
+        [Authorize]
+        public async Task<IHttpActionResult> GetTinyProfile()
+        {
+            return Ok(new { username = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name });
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        [Authorize]
+        public async Task<IHttpActionResult> Logout()
+        {
+            HttpContext.Current.GetOwinContext().Authentication.SignOut();
+            return Ok();
         }
     }
 }

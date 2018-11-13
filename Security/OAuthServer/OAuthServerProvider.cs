@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Security.Entities;
 using System;
@@ -56,13 +57,30 @@ namespace Security.OAuthServer
                 ClaimsIdentity identity = await userManager.CreateIdentityAsync(
                                                         user,
                                                         DefaultAuthenticationTypes.ExternalBearer);
-                context.Validated(identity);
+                var props = new AuthenticationProperties(new Dictionary<string, string>
+                {
+                    {
+                        "username", user.UserName
+                    }
+                });
+                var ticket = new AuthenticationTicket(identity, props);
+                context.Validated(ticket);
             }
             else
             {
-                context.SetError("invalid_grant", "Invalid User Id or password'");
+                context.SetError("Authentication failed", "Invalid User Id or password'");
                 context.Rejected();
             }
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+
+            return Task.FromResult<object>(null);
         }
 
         public override Task MatchEndpoint(OAuthMatchEndpointContext context)
