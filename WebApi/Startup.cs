@@ -36,6 +36,7 @@ namespace WebApi
                 TokenEndpointPath = new PathString("/token"),
                 AuthorizeEndpointPath = new PathString("/auth"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromHours(8),
+                RefreshTokenProvider = new ApplicationRefreshTokenProvider(),
                 Provider = new OAuthServerProvider(),
             });
 
