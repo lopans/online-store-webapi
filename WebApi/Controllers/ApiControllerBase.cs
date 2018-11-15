@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Security.Entities;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -20,7 +21,7 @@ namespace WebApi.Controllers
         {
             get => uofw ?? new UnitOfWork(new DataContext());
         }
-
+        public ClaimsPrincipal AppUser => HttpContext.Current.GetOwinContext().Authentication.User;
         public IUnitOfWork CreateSecurityUnitOfWork
         {
             get => suofw ?? new UnitOfWork(new Security.SecurityContext());
