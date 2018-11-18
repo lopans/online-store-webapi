@@ -3,11 +3,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Security.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Security.OAuthServer
@@ -59,9 +56,7 @@ namespace Security.OAuthServer
                                                         DefaultAuthenticationTypes.ExternalBearer);
                 var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
-                    {
-                        "username", user.UserName
-                    }
+                    { "username", user.UserName },
                 });
                 var ticket = new AuthenticationTicket(identity, props);
                 context.Validated(ticket);

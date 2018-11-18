@@ -9,4 +9,6 @@ namespace Base.DAL
         int SaveChanges();
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity;
     }
+
+    
 }

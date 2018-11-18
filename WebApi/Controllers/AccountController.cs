@@ -1,4 +1,5 @@
 ﻿using Base.Exceptions;
+using Security;
 using Security.Services;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,8 +11,10 @@ namespace WebApi.Controllers
     public class AccountController: ApiControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        public AccountController(IAuthenticationService authenticationService)
+        private readonly IUserService _userService;
+        public AccountController(IAuthenticationService authenticationService, IUserService userService)
         {
+            _userService = userService;
             _authenticationService = authenticationService;
         }
         [HttpGet]
@@ -43,7 +46,10 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IHttpActionResult> GetTinyProfile()
         {
-            return Ok(new { username = HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name });
+            return Ok(new
+            {
+                roles = await _userService.GetUserRoles(UserManager, AppUser.GetUserID())
+            });
         }
 
         [HttpPost]

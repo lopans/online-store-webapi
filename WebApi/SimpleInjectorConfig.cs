@@ -22,6 +22,7 @@ namespace WebApi
             container.Register<ITestObjectService, TestObjectService>(Lifestyle.Singleton);
             container.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
             #endregion
+            container.Register<IUserService, UserService>(Lifestyle.Singleton);
             container.Register<IAuthenticationService, AuthenticationService>(Lifestyle.Singleton);
 
             // This is an extension method from the integration package.
