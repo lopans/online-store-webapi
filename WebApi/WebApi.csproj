@@ -364,9 +364,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54553</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:7000</IISUrl>
+          <IISUrl>http://localhost:8100</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:7000</IISAppRootUrl>
+          <IISAppRootUrl>http://localhost:8100</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

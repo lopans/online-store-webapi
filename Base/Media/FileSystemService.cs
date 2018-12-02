@@ -1,6 +1,5 @@
 ﻿using Base.DAL;
-using System.Collections.Specialized;
-using ImageResizer;
+using Base.Utils;
 using System;
 using System.Data.Entity;
 using System.IO;
@@ -12,9 +11,10 @@ namespace Base.Services.Media
     {
         string FilesFolderPath { get; }
         string DefaultImagePath { get; }
-        FileData SaveFile(Stream stream);
-        FileData SaveFile(Stream file, IUnitOfWork uofw);
+        FileData SaveFile(Stream stream, string fileName, string extension);
+        FileData SaveFile(Stream file, IUnitOfWork uofw, string fileName, string extension);
         Task<Stream> GetFile(Guid guid, IUnitOfWork uofw);
+        Task<FileData> SaveFileAsync(Stream file, IUnitOfWork uofw, string fileName, string extension);
 
     }
     public class FileSystemService : IFileSystemService
@@ -30,34 +30,42 @@ namespace Base.Services.Media
         public string FilesFolderPath { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files"); }
         public string DefaultImagePath { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content", "default.jpg"); }
 
-        public FileData SaveFile(Stream stream)
+        public FileData SaveFile(Stream stream, string fileName, string extension)
         {
             var fileDir = GetFolder();
             if (!Directory.Exists(fileDir))
                 Directory.CreateDirectory(fileDir);
-            var guid = new Guid();
+            var guid = Guid.NewGuid();
             var filePath = Path.Combine(fileDir, guid.ToString());
             using(var str = File.Create(filePath))
             {
                 stream.Seek(0, SeekOrigin.Begin);
-                str.CopyTo(str);
+                stream.CopyTo(str);
             }
             var fi = new FileInfo(filePath);
             return new FileData()
             {
                 FileID = guid,
-                FileName =  guid.ToString(),
+                FileName =  fileName.OrIfNullOrEmtry(guid.ToString()),
                 CreateDate = DateTime.Now,
-                Extension = fi != null && fi.Name.Contains(".") ?
-                    fi.Name.Substring(fi.Name.LastIndexOf(".", StringComparison.Ordinal) + 1).ToUpper() :
-                    ""
+                Extension = extension.OrIfNullOrEmtry(fi.Extension)
             };
         }
 
-        public FileData SaveFile(Stream file, IUnitOfWork uofw)
+        public FileData SaveFile(Stream file, IUnitOfWork uofw, string fileName, string extension)
         {
-            var ret = SaveFile(file);
-            return uofw.GetRepository<FileData>().Create(ret);
+            var ret = SaveFile(file, fileName, extension);
+            var res = uofw.GetRepository<FileData>().Create(ret);
+            uofw.SaveChanges();
+            return res;
+        }
+
+        public async Task<FileData> SaveFileAsync(Stream file, IUnitOfWork uofw, string fileName, string extension)
+        {
+            var ret = SaveFile(file, fileName, extension);
+            var res = uofw.GetRepository<FileData>().Create(ret);
+            await uofw.SaveChangesAsync();
+            return res;
         }
 
         public async Task<Stream> GetFile(Guid guid, IUnitOfWork uofw)
