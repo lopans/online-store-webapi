@@ -72,11 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
+    <Compile Include="Entities\Store\IFlexDisplayed.cs" />
     <Compile Include="Entities\Store\SaleItem.cs" />
     <Compile Include="Entities\Store\Item.cs" />
     <Compile Include="Entities\Store\SubCategory.cs" />
     <Compile Include="Entities\Store\Category.cs" />
     <Compile Include="Entities\TestObject.cs" />
+    <Compile Include="Enums\FlexSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestObjectService.cs" />
   </ItemGroup>

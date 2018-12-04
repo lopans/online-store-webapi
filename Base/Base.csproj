@@ -56,13 +56,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Base\UiEnum.cs" />
+    <Compile Include="Enums\Extensions\EnumHelpers.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
-    <Compile Include="FileData.cs" />
+    <Compile Include="Media\Entities\FileData.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="IBaseEntity.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="Media\FileSystemService.cs" />
+    <Compile Include="Media\Helpers\ImageHelpers.cs" />
     <Compile Include="Media\ImageService.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="IRepository.cs" />
@@ -76,8 +79,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
