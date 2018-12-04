@@ -1,5 +1,7 @@
-﻿using Base.Services;
+﻿using Base.Media.Helpers;
+using Base.Services;
 using Data.Entities.Store;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +28,7 @@ namespace WebApi.Controllers
                 {
                     ID = x.ID,
                     Title = x.Title,
-                    FileID = x.Image.FileID
+                    FileID = x.Image != null ? (Guid?)x.Image.FileID : null
                 }).ToListAsync();
                 return Ok(ret);
             }
