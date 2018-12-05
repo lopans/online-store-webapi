@@ -1,5 +1,4 @@
-﻿using Base.Media.Helpers;
-using Base.Services;
+﻿using Base.Services;
 using Data.Entities.Store;
 using System;
 using System.Data.Entity;
@@ -28,6 +27,7 @@ namespace WebApi.Controllers
                 {
                     ID = x.ID,
                     Title = x.Title,
+                    x.Color,
                     FileID = x.Image != null ? (Guid?)x.Image.FileID : null
                 }).ToListAsync();
                 return Ok(ret);
@@ -44,6 +44,7 @@ namespace WebApi.Controllers
                 var ret = _categoryService.Create(uofw,
                     new Category()
                     {
+                        Color = model.Color,
                         Title = model.Title,
                         ImageID = model.ImageID
                     });

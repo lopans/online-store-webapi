@@ -74,7 +74,7 @@ namespace Base.Services.Media
             if (file == null)
                 throw new FileNotFoundException();
 
-            var filepath = Path.Combine(GetFolder(file), file.FileID.ToString()) + "." + file.Extension;
+            var filepath = Path.Combine(GetFolder(file), file.FileID.ToString());
             if(!File.Exists(filepath))
                 throw new FileNotFoundException();
             //using(var ms = new MemoryStream())
