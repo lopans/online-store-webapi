@@ -9,6 +9,5 @@ namespace Data.Entities.Store
         public virtual FileData Image { get; set; }
         public int? ImageID { get; set; }
         public string Color { get; set; }
-        public FlexSize FlexSize { get; set; }
     }
 }

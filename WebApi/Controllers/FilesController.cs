@@ -29,7 +29,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("get")]
-        public async Task<HttpResponseMessage> GetFile(Guid fileid)
+        public async Task<HttpResponseMessage> GetFile(Guid? fileid)
         {
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             using (var uofw = CreateUnitOfWork)
@@ -37,7 +37,9 @@ namespace WebApi.Controllers
                 Stream stream;
                 try
                 {
-                    stream = await _fileSystemService.GetFile(fileid, uofw);
+                    if (!fileid.HasValue)
+                        throw new FileNotFoundException();
+                    stream = await _fileSystemService.GetFile(fileid.Value, uofw);
                 }
                 catch(FileNotFoundException fex)
                 {
