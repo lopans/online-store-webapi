@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Base.Identity.Entities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -26,7 +27,7 @@ namespace WebApi
             {
                 DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
             };
-            app.CreatePerOwinContext(() => new Security.SecurityContext());
+            app.CreatePerOwinContext(() => new Data.DataContext());
             app.CreatePerOwinContext<UserManager<User>>(CreateManager);
 
             // token generation
@@ -48,20 +49,20 @@ namespace WebApi
 
         private static UserManager<User> CreateManager(IdentityFactoryOptions<UserManager<User>> options, IOwinContext context)
         {
-            var userStore = new UserStore<User>(context.Get<Security.SecurityContext>());
+            var userStore = new UserStore<User>(context.Get<Data.DataContext>());
             var owinManager = new UserManager<User>(userStore);
             return owinManager;
         }
 
         static void MigrateDB()
         {
+            //var securityMigratorConfig = new Security.Configuration();
+            //var securityDbMigrator = new DbMigrator(securityMigratorConfig);
+            //securityDbMigrator.Update();
+
             var migratorConfig = new Data.Configuration();
             var dbMigrator = new DbMigrator(migratorConfig);
             dbMigrator.Update();
-
-            var securityMigratorConfig = new Security.Configuration();
-            var securityDbMigrator = new DbMigrator(securityMigratorConfig);
-            securityDbMigrator.Update();
         }
     }
 

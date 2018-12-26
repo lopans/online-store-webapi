@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Base.Utils;
+using Base.Services;
 
 namespace WebApi.Controllers
 {
@@ -13,8 +14,10 @@ namespace WebApi.Controllers
     public class TestController : ApiControllerBase
     {
         private readonly ITestObjectService _testObjectService;
-        public TestController(ITestObjectService testObjectService)
+        private readonly IAccessService _accessService;
+        public TestController(ITestObjectService testObjectService, IAccessService accessService)
         {
+            _accessService = accessService;
             _testObjectService = testObjectService;
         }
         [HttpGet]

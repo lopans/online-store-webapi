@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Base.DAL
 {
@@ -10,6 +11,7 @@ namespace Base.DAL
     public abstract class BaseEntity : IBaseEntity
     {
         [Key]
+        [Column(Order = 0)]
         public int ID { get; set; }
         public bool Hidden { get; set; }
         public double SortOrder { get; set; }

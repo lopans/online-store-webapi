@@ -24,6 +24,7 @@ namespace WebApi
             #endregion
             container.Register<IUserService, UserService>(Lifestyle.Singleton);
             container.Register<IAuthenticationService, AuthenticationService>(Lifestyle.Singleton);
+            container.Register<IAccessService, AccessService>(Lifestyle.Singleton);
 
             // This is an extension method from the integration package.
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);

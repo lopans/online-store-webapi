@@ -6,6 +6,11 @@ namespace Base.Services
 {
     public class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
+        private readonly IAccessService _accessService;
+        public BaseService(IAccessService accessService)
+        {
+            _accessService = accessService;
+        }
         public void ChangeSortOrder(IUnitOfWork unitOfWork, T obj, int posId)
         {
             double oldOrder = obj.SortOrder;
@@ -45,6 +50,8 @@ namespace Base.Services
 
         public T Create(IUnitOfWork unitOfWork, T obj)
         {
+            _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Create, typeof(T));
+
             InitSortOrder(unitOfWork, obj);
             unitOfWork.GetRepository<T>().Create(obj);
             unitOfWork.SaveChanges();
@@ -58,6 +65,8 @@ namespace Base.Services
 
         public void Delete(IUnitOfWork unitOfWork, T obj, bool setHidden = true)
         {
+            _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Delete, typeof(T));
+
             if (setHidden)
                 unitOfWork.GetRepository<T>().ChangeProperty(obj.ID, x => x.Hidden, true);
             else
@@ -69,6 +78,8 @@ namespace Base.Services
 
         public IQueryable<T> GetAll(IUnitOfWork unitOfWork, bool hidden = false)
         {
+            _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Read, typeof(T));
+
             IQueryable<T> q = unitOfWork.GetRepository<T>().All();
             if (hidden)
                 q = q.Where(a => a.Hidden == true);
@@ -79,6 +90,8 @@ namespace Base.Services
 
         public T Update(IUnitOfWork unitOfWork, T obj)
         {
+            _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Update, typeof(T));
+
             if (obj.ID == 0) return this.Create(unitOfWork, obj);
             unitOfWork.GetRepository<T>().Update(obj);
             unitOfWork.SaveChanges();

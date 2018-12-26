@@ -1,6 +1,7 @@
 ﻿using Base.Exceptions;
 using Security;
 using Security.Services;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -23,7 +24,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                await _authenticationService.Register(email, password, UserManager);
+                await _authenticationService.Register(email, password);
                 return Ok("registered successfully");
             }
             catch(RegisterFailedException rex)
@@ -46,9 +47,10 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IHttpActionResult> GetTinyProfile()
         {
+            // TODO: UserManagerWrap
             return Ok(new
             {
-                roles = await _userService.GetUserRoles(UserManager, AppUser.GetUserID())
+                roles = Enumerable.Empty<string>()// await _userService.GetUserRoles(UserManager, AppUser.GetUserID())
             });
         }
 

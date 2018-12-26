@@ -67,6 +67,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,12 +76,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Role.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\AccessLevel.cs" />
+    <Compile Include="Entities\Roles.cs" />
+    <Compile Include="Exceptions\SecurityException.cs" />
     <Compile Include="IdentityHelper.cs" />
     <Compile Include="OAuthServer\OAuthServerProvider.cs" />
-    <Compile Include="SecurityContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccessService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="OAuthServer\ApplicationRefreshTokenProvider.cs" />
@@ -90,6 +92,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Base.Identity\Base.Identity.csproj">
+      <Project>{A2476E16-E8BE-414E-B3B0-A71FF5BB27DC}</Project>
+      <Name>Base.Identity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{1AA6B4BD-0864-43C2-8C63-AEF9C4130925}</Project>
       <Name>Base</Name>

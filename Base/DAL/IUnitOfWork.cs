@@ -10,5 +10,8 @@ namespace Base.DAL
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity;
     }
 
-    
+    public interface ISystemUnitOfWork : IUnitOfWork
+    {
+
+    }
 }

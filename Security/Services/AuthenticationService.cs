@@ -1,4 +1,5 @@
 ﻿using Base.Exceptions;
+using Base.Identity.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Security.Entities;
@@ -12,7 +13,8 @@ namespace Security.Services
 {
     public interface IAuthenticationService
     {
-        Task Register(string login, string password, UserManager<User> manager);
+        Task Register(string login, string password);
+        UserManager<User> GetUserManager();
     }
     public class AuthenticationService : IAuthenticationService
     {
@@ -25,16 +27,24 @@ namespace Security.Services
             _userManager = new UserManager<User>(_userStore);
         }
 
-        public async Task Register(string email, string password, UserManager<User> manager)
+        public UserManager<User> GetUserManager()
+        {
+            return _userManager;
+        }
+
+        public async Task Register(string email, string password)
         {
             var user = new User()
             {
                 Email = email,
-                UserName = email
+                UserName = email,
             };
-            IdentityResult res = await manager.CreateAsync(user, password);
+            IdentityResult res = await _userManager.CreateAsync(user, password);
             if (res.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user.Id, Roles.Byuer);
                 return;
+            }
 
             else throw new RegisterFailedException(res.Errors.First());
         }

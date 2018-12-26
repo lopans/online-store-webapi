@@ -334,6 +334,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Base.Identity\Base.Identity.csproj">
+      <Project>{A2476E16-E8BE-414E-B3B0-A71FF5BB27DC}</Project>
+      <Name>Base.Identity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{1AA6B4BD-0864-43C2-8C63-AEF9C4130925}</Project>
       <Name>Base</Name>
@@ -365,7 +369,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54553</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8100</IISUrl>
+          <IISUrl>http://localhost:7000</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:8100</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

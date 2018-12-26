@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Base.Identity.Entities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;

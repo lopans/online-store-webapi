@@ -1,4 +1,5 @@
 ﻿using Base.Services;
+using Data.Entities;
 using Data.Entities.Store;
 using System;
 using System.Data.Entity;
@@ -13,8 +14,11 @@ namespace WebApi.Controllers
     public class CategoriesController : ApiControllerBase
     {
         private readonly IBaseService<Category> _categoryService;
-        public CategoriesController(IBaseService<Category> categoryService)
+        private readonly IAccessService _accessService;
+
+        public CategoriesController(IBaseService<Category> categoryService, IAccessService accessService)
         {
+            _accessService = accessService;
             _categoryService = categoryService;
         }
         [HttpGet]
