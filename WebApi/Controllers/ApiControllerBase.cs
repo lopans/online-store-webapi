@@ -15,10 +15,25 @@ namespace WebApi.Controllers
     public class ApiControllerBase : ApiController
     {
         private IUnitOfWork uofw;
+        private ISystemUnitOfWork suofw;
         public IUnitOfWork CreateUnitOfWork
         {
-            get => uofw ?? new UnitOfWork(new DataContext());
+            get
+            {
+                if (uofw == null) uofw = new UnitOfWork(new DataContext());
+                return uofw;
+            }
         }
+
+        public ISystemUnitOfWork CreateSystemUnitOfWork
+        {
+            get
+            {
+                if (suofw == null) suofw = new SystemUnitOfWork(new DataContext());
+                return suofw;
+            }
+        }
+       
         public ClaimsPrincipal AppUser => HttpContext.Current.GetOwinContext().Authentication.User;
     }
 }

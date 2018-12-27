@@ -32,14 +32,14 @@ namespace WebApi.Controllers
         public async Task<HttpResponseMessage> GetFile(Guid? fileid)
         {
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            using (var uofw = CreateUnitOfWork)
+            using (var suofw = CreateSystemUnitOfWork)
             {
                 Stream stream;
                 try
                 {
                     if (!fileid.HasValue)
                         throw new FileNotFoundException();
-                    stream = await _fileSystemService.GetFile(fileid.Value, uofw);
+                    stream = await _fileSystemService.GetFile(fileid.Value, suofw);
                 }
                 catch(FileNotFoundException fex)
                 {
