@@ -11,5 +11,6 @@ namespace Base.Services
     public interface IAccessService
     {
         void ThrowIfAccessDenied(IUnitOfWork uofw, AccessModifier permission, Type entityType);
+        void ThrowIfNotInRole(string role);
     }
 }

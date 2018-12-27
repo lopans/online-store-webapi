@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Http;
 using Base.Utils;
 using Base.Services;
+using Data.Services.Core;
 
 namespace WebApi.Controllers
 {
@@ -14,9 +15,12 @@ namespace WebApi.Controllers
     public class TestController : ApiControllerBase
     {
         private readonly ITestObjectService _testObjectService;
+        private readonly IMappedBaseEntityService _mappedBaseEntityService ;
+        
         private readonly IAccessService _accessService;
-        public TestController(ITestObjectService testObjectService, IAccessService accessService)
+        public TestController(ITestObjectService testObjectService, IAccessService accessService, IMappedBaseEntityService mappedBaseEntityService)
         {
+            _mappedBaseEntityService = mappedBaseEntityService;
             _accessService = accessService;
             _testObjectService = testObjectService;
         }
@@ -26,6 +30,7 @@ namespace WebApi.Controllers
         {
             using(var uofw = CreateUnitOfWork)
             {
+               var a =await _mappedBaseEntityService.GetEntitiesAsync();
                 var obj = _testObjectService.Create(uofw, new TestObject() { Title = "Old title", Number = 5 });
                 //var dto = new { Title = "DTO Text", Number = -7 };
                 //uofw.GetRepository<TestObject>().SetFromObject(obj.ID, dto);

@@ -15,5 +15,10 @@ namespace Data.Entities.Core
         public static string Editor { get => "Editor"; }
         public static string Byuer { get => "Byuer"; }
         public static string Public { get => "Public"; }
+
+        public static IEnumerable<string> GetRolesList
+        {
+            get => new List<string> { Admin, Editor, Byuer, Public };
+        } 
     }
 }

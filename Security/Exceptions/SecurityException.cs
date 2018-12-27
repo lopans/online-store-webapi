@@ -15,5 +15,9 @@ namespace Security.Exceptions
         {
             
         }
+        public SecurityException(string msg): base(msg)
+        {
+
+        }
     }
 }

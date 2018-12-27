@@ -30,6 +30,9 @@ namespace WebApi
             container.Register<IUserManager, UserManager>(Lifestyle.Singleton);
             container.Register<IUserStore<User>, UserStore>(Lifestyle.Singleton);
             container.Register<IUserStore, UserStore>(Lifestyle.Singleton);
+            container.Register<IMappedBaseEntityService, MappedBaseEntityService>(Lifestyle.Singleton);
+
+            
 
             // This is an extension method from the integration package.
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);

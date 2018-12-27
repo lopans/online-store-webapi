@@ -28,7 +28,6 @@ namespace Security.Services
             if (uofw is ISystemUnitOfWork)
                 return;
             var userID = AppContext.UserID;
-            // сделать обертку для манагера, просунуть ему datacontext. Иначе он не знает строки подключения
             var userRoles = userID != null ?
                 _userManager.GetRolesAsync(userID).Result :
                 new List<string> { Roles.Public };
@@ -42,6 +41,17 @@ namespace Security.Services
                 .Any();
             if(!hasPermission)
                 throw new SecurityException(entityType, permission);
+        }
+
+        public void ThrowIfNotInRole(string role)
+        {
+            var userID = AppContext.UserID;
+            var userRoles = userID != null ?
+                _userManager.GetRolesAsync(userID).Result :
+                new List<string> { Roles.Public };
+
+            if(!userRoles.Contains(role))
+                throw new SecurityException("You got not enough role to perform this action");
         }
     }
 }

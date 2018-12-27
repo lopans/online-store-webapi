@@ -10,7 +10,6 @@ namespace Base.Entities
     [ComplexType]
     public class MappedBaseEntity
     {
-        public int ID { get; set; }
         public string TypeName { get; set; }
     }
 }
