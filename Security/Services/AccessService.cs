@@ -1,9 +1,10 @@
 ﻿using Base.DAL;
 using Base.Enums;
 using Base.Services;
+using Data.Entities.Core;
+using Data.Services.Core;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Security.Entities;
 using Security.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace Security.Services
 {
     public class AccessService : IAccessService
     {
-        private readonly IAuthenticationService _authenticationService;
-        public AccessService(IAuthenticationService authenticationService)
+        private readonly IUserManager _userManager;
+        public AccessService(IUserManager userManager)
         {
-            _authenticationService = authenticationService;
+            _userManager = userManager;
         }
         public void ThrowIfAccessDenied(IUnitOfWork uofw, AccessModifier permission, Type entityType)
         {
@@ -29,7 +30,7 @@ namespace Security.Services
             var userID = AppContext.UserID;
             // сделать обертку для манагера, просунуть ему datacontext. Иначе он не знает строки подключения
             var userRoles = userID != null ?
-                _authenticationService.GetUserManager().GetRoles(userID) :
+                _userManager.GetRolesAsync(userID).Result :
                 new List<string> { Roles.Public };
             if (userRoles.Contains(Roles.Admin))
                 return;

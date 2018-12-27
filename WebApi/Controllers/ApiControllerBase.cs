@@ -4,7 +4,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Security.Entities;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Http;

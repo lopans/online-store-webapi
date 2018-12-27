@@ -1,6 +1,9 @@
-﻿using Base.Services;
+﻿using Base.Identity.Entities;
+using Base.Services;
 using Base.Services.Media;
 using Data.Services;
+using Data.Services.Core;
+using Microsoft.AspNet.Identity;
 using Security.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
@@ -22,9 +25,11 @@ namespace WebApi
             container.Register<ITestObjectService, TestObjectService>(Lifestyle.Singleton);
             container.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
             #endregion
-            container.Register<IUserService, UserService>(Lifestyle.Singleton);
             container.Register<IAuthenticationService, AuthenticationService>(Lifestyle.Singleton);
             container.Register<IAccessService, AccessService>(Lifestyle.Singleton);
+            container.Register<IUserManager, UserManager>(Lifestyle.Singleton);
+            container.Register<IUserStore<User>, UserStore>(Lifestyle.Singleton);
+            container.Register<IUserStore, UserStore>(Lifestyle.Singleton);
 
             // This is an extension method from the integration package.
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);

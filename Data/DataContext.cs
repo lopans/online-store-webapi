@@ -1,10 +1,10 @@
 ﻿using Base.DAL;
 using Base.Identity.Entities;
 using Data.Entities;
+using Data.Entities.Core;
 using Data.Entities.Store;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Security.Entities;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;

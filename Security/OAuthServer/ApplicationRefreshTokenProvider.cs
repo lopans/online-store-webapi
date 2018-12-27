@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.Infrastructure;
-using Security.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

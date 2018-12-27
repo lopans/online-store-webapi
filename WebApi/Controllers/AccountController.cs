@@ -12,10 +12,8 @@ namespace WebApi.Controllers
     public class AccountController: ApiControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IUserService _userService;
-        public AccountController(IAuthenticationService authenticationService, IUserService userService)
+        public AccountController(IAuthenticationService authenticationService)
         {
-            _userService = userService;
             _authenticationService = authenticationService;
         }
         [HttpGet]

@@ -5,7 +5,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using Security.Entities;
 using Security.OAuthServer;
 using SimpleInjector.Integration.WebApi;
 using System;

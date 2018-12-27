@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
+    <Compile Include="Entities\Core\AccessLevel.cs" />
+    <Compile Include="Entities\Core\Roles.cs" />
     <Compile Include="Entities\Store\IFlexDisplayed.cs" />
     <Compile Include="Entities\Store\SaleItem.cs" />
     <Compile Include="Entities\Store\Item.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="Entities\TestObject.cs" />
     <Compile Include="Enums\FlexSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Core\UserManager.cs" />
+    <Compile Include="Services\Core\UserStore.cs" />
     <Compile Include="Services\TestObjectService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,10 +100,6 @@
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{1AA6B4BD-0864-43C2-8C63-AEF9C4130925}</Project>
       <Name>Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Security\Security.csproj">
-      <Project>{666A1B87-739D-4FCD-B2BB-C70FB12C2FF8}</Project>
-      <Name>Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Security.Entities
+namespace Data.Entities.Core
 {
     public static class Roles
     {
