@@ -20,4 +20,17 @@ namespace Data.Services.Core
 
         }
     }
+
+
+    public interface IRoleStore : IRoleStore<IdentityRole>
+    {
+
+    }
+    public class RoleStore : RoleStore<IdentityRole>, IRoleStore
+    {
+        public RoleStore() : base(new DataContext())
+        {
+
+        }
+    }
 }

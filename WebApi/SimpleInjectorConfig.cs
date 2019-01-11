@@ -4,6 +4,7 @@ using Base.Services.Media;
 using Data.Services;
 using Data.Services.Core;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Security.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
@@ -28,8 +29,12 @@ namespace WebApi
             container.Register<IAuthenticationService, AuthenticationService>(Lifestyle.Singleton);
             container.Register<IAccessService, AccessService>(Lifestyle.Singleton);
             container.Register<IUserManager, UserManager>(Lifestyle.Singleton);
+            container.Register<IRoleManager, RoleManager>(Lifestyle.Singleton);
             container.Register<IUserStore<User>, UserStore>(Lifestyle.Singleton);
+            container.Register<IRoleStore<IdentityRole>, RoleStore>(Lifestyle.Singleton);
             container.Register<IUserStore, UserStore>(Lifestyle.Singleton);
+            container.Register<IRoleStore, RoleStore>(Lifestyle.Singleton);
+            
             container.Register<IMappedBaseEntityService, MappedBaseEntityService>(Lifestyle.Singleton);
 
             

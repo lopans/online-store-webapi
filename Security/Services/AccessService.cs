@@ -35,7 +35,7 @@ namespace Security.Services
                 return;
 
             var hasPermission = uofw.GetRepository<AccessLevel>().All()
-                .Where(x => userRoles.Contains(x.Role.Name) && 
+                .Where(x => !x.Hidden && userRoles.Contains(x.Role.Name) && 
                 x.AccessModifier == permission && 
                 x.Entity.TypeName == entityType.FullName)
                 .Any();

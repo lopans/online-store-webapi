@@ -78,6 +78,7 @@
     <Compile Include="Media\FileSystemService.cs" />
     <Compile Include="Media\Helpers\ImageHelpers.cs" />
     <Compile Include="Media\ImageService.cs" />
+    <Compile Include="Models\EntityPermissionSet.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

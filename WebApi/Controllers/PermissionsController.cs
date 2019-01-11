@@ -10,6 +10,7 @@ using Base.Services;
 using Data.Services.Core;
 using Data.Entities.Core;
 using System.Linq;
+using System.Data.Entity;
 
 namespace WebApi.Controllers
 {
@@ -18,23 +19,35 @@ namespace WebApi.Controllers
     {
         private readonly IMappedBaseEntityService _mappedBaseEntityService;
         private readonly IAccessService _accessService;
-        public PermissionsController(IAccessService accessService, IMappedBaseEntityService mappedBaseEntityService)
+        private readonly IUserManager _userManager;
+        private readonly IRoleManager _roleManager;
+        public PermissionsController(IAccessService accessService, 
+            IMappedBaseEntityService mappedBaseEntityService, 
+            IUserManager userManager,
+            IRoleManager roleManager)
         {
+            _roleManager = roleManager;
             _mappedBaseEntityService = mappedBaseEntityService;
             _accessService = accessService;
+            _userManager = userManager;
         }
         [HttpGet]
         [Route("getList")]
-        public async Task<IHttpActionResult> GetPermissionsList()
+        public async Task<IHttpActionResult> GetPermissionsList(string roleID)
         {
-            // TODO: доделать
             _accessService.ThrowIfNotInRole(Roles.Admin);
-            var ret = (await _mappedBaseEntityService.GetEntitiesAsync()).Select(x => new
+            using(var uofw = CreateUnitOfWork)
             {
-                type = x.TypeName,
-                roles = Roles.GetRolesList
-            });
-            return Ok(ret);
+                return Ok (await _mappedBaseEntityService.GetEntityPermissionsForRole(uofw, roleID));
+
+            }
+        }
+
+        [HttpGet]
+        [Route("getRoles")]
+        public async Task<IHttpActionResult> GetRoles()
+        {
+            return Ok(await _roleManager.Roles.Select(x => new { x.Id, x.Name }).ToListAsync());
         }
     }
 }
