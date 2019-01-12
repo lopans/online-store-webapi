@@ -76,6 +76,22 @@ namespace Base.Services
 
         }
 
+        public void Delete(IUnitOfWork unitOfWork, int id, bool setHidden = true)
+        {
+            _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Delete, typeof(T));
+
+            if (setHidden)
+                unitOfWork.GetRepository<T>().ChangeProperty(id, x => x.Hidden, true);
+            else
+            {
+                var obj = unitOfWork.GetRepository<T>().All().Where(x => x.ID == id).Single();
+                unitOfWork.GetRepository<T>().Delete(obj);
+            }
+
+            unitOfWork.SaveChanges();
+
+        }
+
         public IQueryable<T> GetAll(IUnitOfWork unitOfWork, bool hidden = false)
         {
             _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Read, typeof(T));

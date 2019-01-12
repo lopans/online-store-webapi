@@ -1,10 +1,10 @@
 ﻿using Base.Exceptions;
-using Security;
 using Security.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -16,18 +16,18 @@ namespace WebApi.Controllers
         {
             _authenticationService = authenticationService;
         }
-        [HttpGet]
+        [HttpPost]
         [Route("register")]
-        public async Task<IHttpActionResult> Register(string email, string password)
+        public async Task<IHttpActionResult> Register(RegisterModel model)
         {
             try
             {
-                await _authenticationService.Register(email, password);
+                await _authenticationService.Register(model.Email, model.Password);
                 return Ok("registered successfully");
             }
             catch(RegisterFailedException rex)
             {
-                throw rex;
+                return InternalServerError(rex);
             }
         }
 

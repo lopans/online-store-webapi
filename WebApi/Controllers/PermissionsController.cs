@@ -1,16 +1,12 @@
-﻿using Base.Exceptions;
-using Data.Entities;
-using Data.Services;
-using Security.Services;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using Base.Utils;
-using Base.Services;
-using Data.Services.Core;
+﻿using Base.Services;
 using Data.Entities.Core;
-using System.Linq;
+using Data.Services.Core;
+using System;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -38,8 +34,7 @@ namespace WebApi.Controllers
             _accessService.ThrowIfNotInRole(Roles.Admin);
             using(var uofw = CreateUnitOfWork)
             {
-                return Ok (await _mappedBaseEntityService.GetEntityPermissionsForRole(uofw, roleID));
-
+                return Ok (await _accessService.GetEntityPermissionsForRole(uofw, roleID));
             }
         }
 
@@ -48,6 +43,24 @@ namespace WebApi.Controllers
         public async Task<IHttpActionResult> GetRoles()
         {
             return Ok(await _roleManager.Roles.Select(x => new { x.Id, x.Name }).ToListAsync());
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<IHttpActionResult> Update(PermissionUpdateModel model)
+        {
+            using(var uofw = CreateUnitOfWork)
+            {
+                try
+                {
+                    await _accessService.UpdatePermissionForRole(uofw, model.EntityType, model.RoleID, model.Permission, model.IsEnabled);
+                    return Ok();
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

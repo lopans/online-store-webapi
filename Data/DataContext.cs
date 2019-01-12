@@ -54,6 +54,7 @@ namespace Data
                 manager.Create(new IdentityRole(Roles.Admin));
                 manager.Create(new IdentityRole(Roles.Editor));
                 manager.Create(new IdentityRole(Roles.Byuer));
+                manager.Create(new IdentityRole(Roles.Public));
             }
 
             var ustore = new UserStore<User>(context);
