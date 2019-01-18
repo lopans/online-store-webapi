@@ -6,8 +6,8 @@ namespace Base.Services
 {
     public class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
-        private readonly IAccessService _accessService;
-        public BaseService(IAccessService accessService)
+        private readonly ICheckAccessService _accessService;
+        public BaseService(ICheckAccessService accessService)
         {
             _accessService = accessService;
         }
@@ -94,7 +94,8 @@ namespace Base.Services
 
         public IQueryable<T> GetAll(IUnitOfWork unitOfWork, bool hidden = false)
         {
-            _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Read, typeof(T));
+            if(!typeof(T).GetInterfaces().Contains(typeof(IClientEntity)))
+                _accessService.ThrowIfAccessDenied(unitOfWork, Enums.AccessModifier.Read, typeof(T));
 
             IQueryable<T> q = unitOfWork.GetRepository<T>().All();
             if (hidden)

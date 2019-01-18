@@ -1,4 +1,4 @@
-﻿using Base.Identity.Entities;
+﻿using Data.Entities.Core;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -22,11 +22,11 @@ namespace Data.Services.Core
     }
 
 
-    public interface IRoleStore : IRoleStore<IdentityRole>
+    public interface IRoleStore : IRoleStore<Role>
     {
 
     }
-    public class RoleStore : RoleStore<IdentityRole>, IRoleStore
+    public class RoleStore : RoleStore<Role>, IRoleStore
     {
         public RoleStore() : base(new DataContext())
         {

@@ -1,9 +1,11 @@
-﻿using Base.DAL;
+﻿using Base;
+using Base.DAL;
+using Data.Entities.Core;
 using System.Collections.Generic;
 
 namespace Data.Entities.Store
 {
-    public class Item: BaseEntity
+    public class Item: BaseEntity, IClientEntity
     {
         public string Title { get; set; }
         public string Description { get; set; }

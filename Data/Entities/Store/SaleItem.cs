@@ -1,10 +1,12 @@
-﻿using Base.DAL;
+﻿using Base;
+using Base.DAL;
+using Data.Entities.Core;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities.Store
 {
-    public class SaleItem: BaseEntity
+    public class SaleItem: BaseEntity, IClientEntity
     {
         public int ItemID { get; set; }
         public virtual Item Item { get; set; }

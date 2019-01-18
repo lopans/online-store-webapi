@@ -1,4 +1,5 @@
-﻿using Base.DAL;
+﻿using Base;
+using Base.DAL;
 using Base.Entities;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Data.Services.Core
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(ass => ass.GetTypes()
-                    .Where(x => x.IsSubclassOf(typeof(BaseEntity)) && !x.IsAbstract)
+                    .Where(x => x.IsSubclassOf(typeof(BaseEntity)) && !x.IsAbstract && x.GetInterfaces().Contains(typeof(IClientEntity)))
                     .Select(x => new MappedBaseEntity() { TypeName = x.FullName })
                 );
         }

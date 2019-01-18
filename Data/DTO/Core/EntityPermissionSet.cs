@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Models
+namespace Data.DTO.Core
 {
     public class EntityPermissionSet
     {

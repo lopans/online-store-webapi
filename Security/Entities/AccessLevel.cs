@@ -16,8 +16,9 @@ namespace Data.Entities.Core
     {
         public string RoleID { get; set; }
         [ForeignKey("RoleID")]
-        public IdentityRole Role { get; set; }
+        public Role Role { get; set; }
         public MappedBaseEntity Entity { get; set; }
         public AccessModifier AccessModifier { get; set; }
+        public bool Readonly { get; set; }
     }
 }

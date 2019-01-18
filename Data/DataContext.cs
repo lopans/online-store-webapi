@@ -1,5 +1,5 @@
 ﻿using Base.DAL;
-using Base.Identity.Entities;
+using Data.ContextInitializer;
 using Data.Entities;
 using Data.Entities.Core;
 using Data.Entities.Store;
@@ -13,6 +13,7 @@ namespace Data
 {
     public class DataContext : IdentityDbContext<User>
     {
+        private BaseContextInitializer initializer;
         public DataContext()
             : base("DataContext")
         {
@@ -30,6 +31,8 @@ namespace Data
             modelBuilder.Entity<Item>();
             modelBuilder.Entity<SaleItem>();
             modelBuilder.Entity<AccessLevel>();
+            modelBuilder.Entity<SpecialPermission>();
+            modelBuilder.Entity<RoleSpecialPermissions>();
             //modelBuilder.Entity<SubCategoryItem>();
 
             base.OnModelCreating(modelBuilder);
@@ -47,25 +50,8 @@ namespace Data
         }
         protected override void Seed(DataContext context)
         {
-            var store = new RoleStore<IdentityRole>(context);
-            var manager = new RoleManager<IdentityRole>(store);
-            if (!manager.Roles.Any())
-            {
-                manager.Create(new IdentityRole(Roles.Admin));
-                manager.Create(new IdentityRole(Roles.Editor));
-                manager.Create(new IdentityRole(Roles.Byuer));
-                manager.Create(new IdentityRole(Roles.Public));
-            }
-
-            var ustore = new UserStore<User>(context);
-            var umanager = new UserManager<User>(ustore);
-            if (!umanager.Users.Any() || !umanager.Users.Any(x => x.Email == "admin"))
-            {
-                User admin = new User();
-                admin.Email = admin.UserName = "admin";
-                umanager.Create(admin, "111111");
-                umanager.AddToRole(admin.Id, Roles.Admin);
-            }
+            BaseContextInitializer initializer = new BaseContextInitializer();
+            initializer.Initialize(context);
             base.Seed(context);
         }
     }

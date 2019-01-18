@@ -11,6 +11,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [RoutePrefix("api/permissions")]
+    [Authorize]
     public class PermissionsController : ApiControllerBase
     {
         private readonly IMappedBaseEntityService _mappedBaseEntityService;
@@ -39,6 +40,17 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("getSpecialList")]
+        public async Task<IHttpActionResult> GetSpecialPermissionsList(string roleID)
+        {
+            _accessService.ThrowIfNotInRole(Roles.Admin);
+            using (var uofw = CreateUnitOfWork)
+            {
+                return Ok(await _accessService.GetEntityPermissionsForRole(uofw, roleID));
+            }
+        }
+
+        [HttpGet]
         [Route("getRoles")]
         public async Task<IHttpActionResult> GetRoles()
         {
@@ -57,6 +69,24 @@ namespace WebApi.Controllers
                     return Ok();
                 }
                 catch(Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("updateSpecial")]
+        public async Task<IHttpActionResult> UpdateSpecial(SpecialPermissionUpdateModel model)
+        {
+            using (var uofw = CreateUnitOfWork)
+            {
+                try
+                {
+                    await _accessService.UpdateSpecialPermissionForRole(uofw, model.RoleID, model.PermissionID, model.IsEnabled);
+                    return Ok();
+                }
+                catch (Exception ex)
                 {
                     throw ex;
                 }

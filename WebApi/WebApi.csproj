@@ -243,6 +243,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category\CreateModel.cs" />
+    <Compile Include="Models\SpecialPermissionUpdateModel.cs" />
     <Compile Include="Models\PermissionUpdateModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\_Common\SimpleDTO.cs" />
@@ -338,10 +339,6 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base.Identity\Base.Identity.csproj">
-      <Project>{A2476E16-E8BE-414E-B3B0-A71FF5BB27DC}</Project>
-      <Name>Base.Identity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{1AA6B4BD-0864-43C2-8C63-AEF9C4130925}</Project>
       <Name>Base</Name>

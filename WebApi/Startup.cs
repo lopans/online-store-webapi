@@ -1,4 +1,4 @@
-﻿using Base.Identity.Entities;
+﻿using Data.Entities.Core;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;

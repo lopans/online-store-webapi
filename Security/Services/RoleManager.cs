@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Data.Entities.Core;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,12 @@ namespace Data.Services.Core
 {
     public interface IRoleManager
     {
-       IQueryable<IdentityRole> Roles { get; }
+       IQueryable<Role> Roles { get; }
 
     }
-    public class RoleManager : RoleManager<IdentityRole>, IRoleManager
+    public class RoleManager : RoleManager<Role>, IRoleManager
     {
-        public RoleManager(IRoleStore<IdentityRole> store) : base(new RoleStore())
+        public RoleManager(IRoleStore<Role> store) : base(new RoleStore())
         {
         }
     }

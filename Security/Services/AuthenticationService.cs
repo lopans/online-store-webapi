@@ -1,5 +1,4 @@
 ﻿using Base.Exceptions;
-using Base.Identity.Entities;
 using Data.Entities.Core;
 using Data.Services.Core;
 using Microsoft.AspNet.Identity;

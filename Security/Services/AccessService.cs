@@ -1,7 +1,7 @@
 ﻿using Base.DAL;
 using Base.Enums;
-using Base.Models;
 using Base.Services;
+using Data.DTO.Core;
 using Data.Entities.Core;
 using Data.Services.Core;
 using Security.Exceptions;
@@ -23,26 +23,7 @@ namespace Security.Services
             _mappedBaseEntityService = mappedBaseEntityService;
             _userManager = userManager;
         }
-        public void ThrowIfAccessDenied(IUnitOfWork uofw, AccessModifier permission, Type entityType)
-        {
-            if (uofw is ISystemUnitOfWork)
-                return;
-            var userID = AppContext.UserID;
-            var userRoles = userID != null ?
-                _userManager.GetRolesAsync(userID).Result :
-                new List<string> { Roles.Public };
-            if (userRoles.Contains(Roles.Admin))
-                return;
-
-            var hasPermission = uofw.GetRepository<AccessLevel>().All()
-                .Where(x => !x.Hidden && userRoles.Contains(x.Role.Name) && 
-                x.AccessModifier == permission && 
-                x.Entity.TypeName == entityType.FullName)
-                .Any();
-            if(!hasPermission)
-                throw new SecurityException(entityType, permission);
-        }
-
+        
         public void ThrowIfNotInRole(string role)
         {
             var userID = AppContext.UserID;
@@ -82,6 +63,33 @@ namespace Security.Services
             return ret;
         }
 
+        public async Task<IEnumerable<RoleSpecialPermissionDTO>> GetRoleSpecialPermissions(IUnitOfWork uofw, string roleID)
+        {
+            var rolePermissionIDs = await uofw.GetRepository<RoleSpecialPermissions>().All()
+                .Where(x => !x.Hidden && x.RoleID == roleID)
+                .Select(x => x.SpecialPermissionID)
+                .ToListAsync();
+
+            var allSpecial = uofw.GetRepository<SpecialPermission>().All()
+                .Where(x => !x.Hidden).
+                Select(x => new
+                {
+                    x.ID,
+                    x.Title
+                });
+            var ret = new List<RoleSpecialPermissionDTO>();
+            foreach (var item in allSpecial)
+            {
+                var el = new RoleSpecialPermissionDTO()
+                {
+                    PermissionID = item.ID,
+                    PermissionTitle = item.Title,
+                    IsEnabled = rolePermissionIDs.Contains(item.ID)
+                };
+                ret.Add(el);
+            }
+            return ret;
+        }
         public async Task UpdatePermissionForRole(IUnitOfWork uofw, string entityType, string roleID, AccessModifier accessModifier, bool isEnabled)
         {
             var repo = uofw.GetRepository<AccessLevel>();
@@ -104,6 +112,29 @@ namespace Security.Services
                     {
                         TypeName = entityType
                     }
+                });
+            }
+            await uofw.SaveChangesAsync();
+        }
+
+        public async Task UpdateSpecialPermissionForRole(IUnitOfWork uofw, string roleID, int specialPermissionID, bool isEnabled)
+        {
+            var repo = uofw.GetRepository<RoleSpecialPermissions>();
+            var entry = await repo.All()
+                .Where(x => x.RoleID == roleID && x.SpecialPermissionID == specialPermissionID)
+                .Select(x => new { x.ID })
+                .FirstOrDefaultAsync();
+            if (entry != null)
+            {
+                if (!isEnabled)
+                    repo.Delete(x => x.ID == entry.ID);
+            }
+            else
+            {
+                repo.Create(new RoleSpecialPermissions()
+                {
+                    SpecialPermissionID = specialPermissionID,
+                    RoleID = roleID,
                 });
             }
             await uofw.SaveChangesAsync();

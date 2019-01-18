@@ -1,6 +1,6 @@
-﻿using Base.Identity.Entities;
-using Base.Services;
+﻿using Base.Services;
 using Base.Services.Media;
+using Data.Entities.Core;
 using Data.Services;
 using Data.Services.Core;
 using Microsoft.AspNet.Identity;
@@ -31,7 +31,7 @@ namespace WebApi
             container.Register<IUserManager, UserManager>(Lifestyle.Singleton);
             container.Register<IRoleManager, RoleManager>(Lifestyle.Singleton);
             container.Register<IUserStore<User>, UserStore>(Lifestyle.Singleton);
-            container.Register<IRoleStore<IdentityRole>, RoleStore>(Lifestyle.Singleton);
+            container.Register<IRoleStore<Role>, RoleStore>(Lifestyle.Singleton);
             container.Register<IUserStore, UserStore>(Lifestyle.Singleton);
             container.Register<IRoleStore, RoleStore>(Lifestyle.Singleton);
             
@@ -43,7 +43,6 @@ namespace WebApi
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
 
             container.Verify();
-
             GlobalConfiguration.Configuration.DependencyResolver =
                 new SimpleInjectorWebApiDependencyResolver(container);
             return container;
