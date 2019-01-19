@@ -1,12 +1,10 @@
-﻿using Data.Entities.Core;
+﻿using Base;
 using Microsoft.AspNet.Identity;
-using System;
+using Security.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Services.Core
+namespace Security.Services
 {
     public interface IUserManager
     {
@@ -17,7 +15,8 @@ namespace Data.Services.Core
     }
     public class UserManager : UserManager<User>, IUserManager
     {
-        public UserManager(IUserStore<User> store) : base(new UserStore())
+        public UserManager(IUserStore<User> store, IDataContext _dataContext) 
+            : base(new UserStore(_dataContext))
         {
         }
     }

@@ -1,17 +1,12 @@
 ﻿using Base;
 using Base.DAL;
 using Base.Enums;
-using Base.Services;
-using Data.Entities.Core;
 using Data.Entities.Store;
-using Data.Services.Core;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+using Security.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.ContextInitializer
 {

@@ -1,6 +1,5 @@
 ﻿using Base;
 using Base.DAL;
-using Data.Entities.Core;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 

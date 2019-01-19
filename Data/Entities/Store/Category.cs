@@ -1,7 +1,5 @@
 ﻿using Base;
 using Base.DAL;
-using Data.Entities.Core;
-using Data.Enums;
 
 namespace Data.Entities.Store
 {

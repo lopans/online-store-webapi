@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Data.Entities.Core
+namespace Security.Entities
 {
     public class User: IdentityUser
     {

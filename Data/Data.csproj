@@ -77,17 +77,12 @@
     <Compile Include="ContextInitializer\UserInitializer.cs" />
     <Compile Include="ContextInitializer\RoleInitializer.cs" />
     <Compile Include="DataContext.cs" />
-    <Compile Include="DTO\Core\EntityPermissionSet.cs" />
-    <Compile Include="DTO\Core\RoleSpecialPermissionDTO.cs" />
     <Compile Include="Entities\Store\SaleItem.cs" />
     <Compile Include="Entities\Store\Item.cs" />
     <Compile Include="Entities\Store\SubCategory.cs" />
     <Compile Include="Entities\Store\Category.cs" />
     <Compile Include="Entities\TestObject.cs" />
-    <Compile Include="Enums\FlexSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Core\IAccessService.cs" />
-    <Compile Include="Services\Core\MappedBaseEntityService.cs" />
     <Compile Include="Services\TestObjectService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +95,10 @@
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{1AA6B4BD-0864-43C2-8C63-AEF9C4130925}</Project>
       <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{666A1B87-739D-4FCD-B2BB-C70FB12C2FF8}</Project>
+      <Name>Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

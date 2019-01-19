@@ -1,13 +1,7 @@
 ﻿using Base.DAL;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Data.Entities.Core
+namespace Security.Entities
 {
     public class RoleSpecialPermissions: BaseEntity
     {

@@ -1,11 +1,9 @@
 ﻿using Base.DAL;
 using Base.Enums;
 using Base.Services;
-using Data.DTO.Core;
-using Data.Entities.Core;
-using Data.Services.Core;
+using Security.DTO;
+using Security.Entities;
 using Security.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,6 +12,14 @@ using AppContext = Base.AppContext;
 
 namespace Security.Services
 {
+    public interface IAccessService
+    {
+        void ThrowIfNotInRole(string role);
+        Task<IEnumerable<EntityPermissionSet>> GetEntityPermissionsForRole(IUnitOfWork uofw, string roleID);
+        Task<IEnumerable<RoleSpecialPermissionDTO>> GetRoleSpecialPermissions(IUnitOfWork uofw, string roleID);
+        Task UpdatePermissionForRole(IUnitOfWork uofw, string entityType, string roleID, AccessModifier accessModifier, bool isEnabled);
+        Task UpdateSpecialPermissionForRole(IUnitOfWork uofw, string roleID, int specialPermissionID, bool isEnabled);
+    }
     public class AccessService : IAccessService
     {
         private readonly IUserManager _userManager;

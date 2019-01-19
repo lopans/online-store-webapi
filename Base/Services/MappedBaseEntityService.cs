@@ -1,12 +1,11 @@
-﻿using Base;
-using Base.DAL;
+﻿using Base.DAL;
 using Base.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Data.Services.Core
+namespace Base.Services
 {
     public interface IMappedBaseEntityService
     {

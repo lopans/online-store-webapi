@@ -1,6 +1,6 @@
 ﻿using Base.Services;
-using Data.Entities.Core;
-using Data.Services.Core;
+using Security.Entities;
+using Security.Services;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -10,6 +10,7 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/permissions")]
     [Authorize]
     public class PermissionsController : ApiControllerBase
@@ -46,7 +47,7 @@ namespace WebApi.Controllers
             _accessService.ThrowIfNotInRole(Roles.Admin);
             using (var uofw = CreateUnitOfWork)
             {
-                return Ok(await _accessService.GetEntityPermissionsForRole(uofw, roleID));
+                return Ok(await _accessService.GetRoleSpecialPermissions(uofw, roleID));
             }
         }
 

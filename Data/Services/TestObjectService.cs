@@ -9,7 +9,7 @@ namespace Data.Services
 
     public class TestObjectService : BaseService<TestObject>, ITestObjectService
     {
-        public TestObjectService(IAccessService accessService) : base(accessService)
+        public TestObjectService(ICheckAccessService accessService) : base(accessService)
         {
         }
     }

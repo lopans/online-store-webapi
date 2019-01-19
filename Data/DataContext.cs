@@ -1,17 +1,16 @@
-﻿using Base.DAL;
+﻿using Base;
+using Base.DAL;
 using Data.ContextInitializer;
 using Data.Entities;
-using Data.Entities.Core;
 using Data.Entities.Store;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Security.Entities;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
 
 namespace Data
 {
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext : IdentityDbContext<User>, IDataContext
     {
         private BaseContextInitializer initializer;
         public DataContext()

@@ -1,6 +1,6 @@
 ﻿using Base.Services;
-using Data.Entities;
 using Data.Entities.Store;
+using Security.Services;
 using System;
 using System.Data.Entity;
 using System.Linq;

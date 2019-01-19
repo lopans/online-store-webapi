@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Entities.Core
+namespace Security.Entities
 {
     public class AccessLevel: BaseEntity
     {

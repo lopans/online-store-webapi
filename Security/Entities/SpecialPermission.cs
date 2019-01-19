@@ -1,11 +1,6 @@
 ﻿using Base.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Data.Entities.Core
+namespace Security.Entities
 {
     public class SpecialPermission: BaseEntity
     {

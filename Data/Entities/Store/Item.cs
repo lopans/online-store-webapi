@@ -1,6 +1,5 @@
 ﻿using Base;
 using Base.DAL;
-using Data.Entities.Core;
 using System.Collections.Generic;
 
 namespace Data.Entities.Store

@@ -46,9 +46,6 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.4.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.4.2\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -71,6 +68,7 @@
     <Compile Include="Enums\Extensions\EnumHelpers.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
     <Compile Include="IClientEntity.cs" />
+    <Compile Include="IDataContext.cs" />
     <Compile Include="Media\Entities\FileData.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="IBaseEntity.cs" />
@@ -85,6 +83,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\IBaseService.cs" />
     <Compile Include="Services\ICheckAccessService.cs" />
+    <Compile Include="Services\MappedBaseEntityService.cs" />
     <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="Utils\PropertyHelper.cs" />
   </ItemGroup>

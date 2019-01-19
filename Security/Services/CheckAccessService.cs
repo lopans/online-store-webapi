@@ -1,17 +1,21 @@
 ﻿using Base.DAL;
 using Base.Enums;
 using Base.Services;
-using Data.Entities.Core;
+using Security.Entities;
+using Security.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Security.Services
 {
     public class CheckAccessService: ICheckAccessService
     {
+        private readonly IUserManager _userManager;
+        public CheckAccessService(IUserManager userManager)
+        {
+            _userManager = userManager;
+        }
         public void ThrowIfAccessDenied(IUnitOfWork uofw, AccessModifier permission, Type entityType)
         {
             if (uofw is ISystemUnitOfWork)

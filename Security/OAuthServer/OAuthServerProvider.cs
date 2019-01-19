@@ -1,8 +1,8 @@
-﻿using Data.Entities.Core;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using Security.Entities;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,6 +11,8 @@ namespace Security.OAuthServer
 {
     public class OAuthServerProvider : OAuthAuthorizationServerProvider
     {
+        private const string _specialPermissionPrefix = "sp_";
+        private const string _rolePrefix = "r_";
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             //string clId, clSecret;
@@ -54,10 +56,17 @@ namespace Security.OAuthServer
                 ClaimsIdentity identity = await userManager.CreateIdentityAsync(
                                                         user,
                                                         DefaultAuthenticationTypes.ExternalBearer);
+                
                 var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     { "username", user.UserName },
                 });
+                var userRoles = await userManager.GetRolesAsync(user.Id);
+                foreach (var item in userRoles)
+                {
+                    props.Dictionary.Add(_rolePrefix + item, "true");
+                }
+
                 var ticket = new AuthenticationTicket(identity, props);
                 context.Validated(ticket);
             }

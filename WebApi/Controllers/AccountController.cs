@@ -31,27 +31,6 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("test")]
-        public async Task<IHttpActionResult> Test()
-        {
-            var aa = HttpContext.Current.GetOwinContext().Authentication.User.Identity;
-            return Ok("done");
-        }
-
-        [HttpPost]
-        [Route("tinyProfile")]
-        [Authorize]
-        public async Task<IHttpActionResult> GetTinyProfile()
-        {
-            // TODO: UserManagerWrap
-            return Ok(new
-            {
-                roles = Enumerable.Empty<string>()// await _userService.GetUserRoles(UserManager, AppUser.GetUserID())
-            });
-        }
-
         [HttpPost]
         [Route("logout")]
         [Authorize]

@@ -1,10 +1,10 @@
-﻿using Data.Entities.Core;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using Security.Entities;
 using Security.OAuthServer;
 using SimpleInjector.Integration.WebApi;
 using System;
@@ -20,17 +20,17 @@ namespace WebApi
         public void Configuration(IAppBuilder app)
         {
             // Initialize container
-            var container = SimpleInjectorConfig.Configure(); 
-
+            var container = SimpleInjectorConfig.Configure();
             HttpConfiguration config = new HttpConfiguration
             {
                 DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
             };
             app.CreatePerOwinContext(() => new Data.DataContext());
             app.CreatePerOwinContext<UserManager<User>>(CreateManager);
-
-            // token generation
-            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            using(config.DependencyResolver.BeginScope())
+            {
+                // token generation
+                app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
@@ -39,6 +39,7 @@ namespace WebApi
                 RefreshTokenProvider = new ApplicationRefreshTokenProvider(),
                 Provider = new OAuthServerProvider(),
             });
+            }
 
             // token consumption
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());

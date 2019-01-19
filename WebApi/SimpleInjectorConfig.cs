@@ -1,10 +1,10 @@
-﻿using Base.Services;
+﻿using Base;
+using Base.Services;
 using Base.Services.Media;
-using Data.Entities.Core;
+using Data;
 using Data.Services;
-using Data.Services.Core;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Security.Entities;
 using Security.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
@@ -21,21 +21,23 @@ namespace WebApi
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
             // Register your types, for instance using the scoped lifestyle:
-#region DATA
-            container.Register(typeof(IBaseService<>), typeof(BaseService<>), Lifestyle.Singleton);
-            container.Register<ITestObjectService, TestObjectService>(Lifestyle.Singleton);
-            container.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
+            #region DATA
+            container.Register(typeof(IBaseService<>), typeof(BaseService<>));
+            container.Register<ITestObjectService, TestObjectService>();
+            container.Register<IFileSystemService, FileSystemService>();
             #endregion
-            container.Register<IAuthenticationService, AuthenticationService>(Lifestyle.Singleton);
-            container.Register<IAccessService, AccessService>(Lifestyle.Singleton);
-            container.Register<IUserManager, UserManager>(Lifestyle.Singleton);
-            container.Register<IRoleManager, RoleManager>(Lifestyle.Singleton);
-            container.Register<IUserStore<User>, UserStore>(Lifestyle.Singleton);
-            container.Register<IRoleStore<Role>, RoleStore>(Lifestyle.Singleton);
-            container.Register<IUserStore, UserStore>(Lifestyle.Singleton);
-            container.Register<IRoleStore, RoleStore>(Lifestyle.Singleton);
+            container.Register<IAuthenticationService, AuthenticationService>();
+            container.Register<ICheckAccessService, CheckAccessService>();
+            container.Register<IAccessService, AccessService>();
+            container.Register<IDataContext, DataContext>(Lifestyle.Scoped);
+            container.Register<IUserManager, UserManager>(Lifestyle.Scoped);
+            container.Register<IRoleManager, RoleManager>(Lifestyle.Scoped);
+            container.Register<IUserStore<User>, UserStore>(Lifestyle.Scoped);
+            container.Register<IRoleStore<Role>, RoleStore>(Lifestyle.Scoped);
+            container.Register<IUserStore, UserStore>(Lifestyle.Scoped);
+            container.Register<IRoleStore, RoleStore>(Lifestyle.Scoped);
             
-            container.Register<IMappedBaseEntityService, MappedBaseEntityService>(Lifestyle.Singleton);
+            container.Register<IMappedBaseEntityService, MappedBaseEntityService>();
 
             
 

@@ -1,13 +1,10 @@
-﻿using Data.Entities.Core;
+﻿using Base;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Security.Entities;
+using System.Data.Entity;
 
-namespace Data.Services.Core
+namespace Security.Services
 {
     public interface IUserStore: IUserStore<User>
     {
@@ -15,7 +12,9 @@ namespace Data.Services.Core
     }
     public class UserStore: UserStore<User>, IUserStore
     {
-        public UserStore(): base(new DataContext())
+
+        public UserStore(IDataContext dataContext) 
+            : base((DbContext)dataContext)
         {
 
         }
@@ -28,7 +27,8 @@ namespace Data.Services.Core
     }
     public class RoleStore : RoleStore<Role>, IRoleStore
     {
-        public RoleStore() : base(new DataContext())
+        public RoleStore(IDataContext dataContext) 
+            : base((DbContext)dataContext)
         {
 
         }

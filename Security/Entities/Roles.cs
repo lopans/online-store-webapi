@@ -1,13 +1,6 @@
-﻿using Base.DAL;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Data.Entities.Core
+namespace Security.Entities
 {
     public static class Roles
     {

@@ -1,13 +1,9 @@
-﻿using Data.Entities.Core;
+﻿using Base;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
+using Security.Entities;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Data.Services.Core
+namespace Security.Services
 {
     public interface IRoleManager
     {
@@ -16,7 +12,8 @@ namespace Data.Services.Core
     }
     public class RoleManager : RoleManager<Role>, IRoleManager
     {
-        public RoleManager(IRoleStore<Role> store) : base(new RoleStore())
+        public RoleManager(IRoleStore<Role> store, IDataContext dataContext) 
+            : base(new RoleStore(dataContext))
         {
         }
     }
