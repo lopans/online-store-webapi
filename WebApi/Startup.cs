@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Base.DAL;
+using Data;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -6,6 +8,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Security.Entities;
 using Security.OAuthServer;
+using Security.Services;
 using SimpleInjector.Integration.WebApi;
 using System;
 using System.Data.Entity.Migrations;
@@ -25,20 +28,22 @@ namespace WebApi
             {
                 DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container)
             };
-            app.CreatePerOwinContext(() => new Data.DataContext());
+            app.CreatePerOwinContext(() => new DataContext());
             app.CreatePerOwinContext<UserManager<User>>(CreateManager);
             using(config.DependencyResolver.BeginScope())
             {
                 // token generation
                 app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
-            {
-                AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
-                AuthorizeEndpointPath = new PathString("/auth"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(8),
-                RefreshTokenProvider = new ApplicationRefreshTokenProvider(),
-                Provider = new OAuthServerProvider(),
-            });
+                {
+                    AllowInsecureHttp = true,
+                    TokenEndpointPath = new PathString("/token"),
+                    AuthorizeEndpointPath = new PathString("/auth"),
+                    AccessTokenExpireTimeSpan = TimeSpan.FromHours(8),
+                    RefreshTokenProvider = new ApplicationRefreshTokenProvider(),
+                    Provider = new OAuthServerProvider(
+                        (ISystemUnitOfWork)config.DependencyResolver.GetService(typeof(ISystemUnitOfWork)),
+                        (IAccessService)config.DependencyResolver.GetService(typeof(IAccessService)))
+                });
             }
 
             // token consumption

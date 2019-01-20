@@ -1,4 +1,5 @@
 ﻿using Base;
+using Base.DAL;
 using Base.Services;
 using Base.Services.Media;
 using Data;
@@ -9,6 +10,7 @@ using Security.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
 using SimpleInjector.Lifestyles;
+using System.Data.Entity;
 using System.Web.Http;
 
 namespace WebApi
@@ -30,6 +32,9 @@ namespace WebApi
             container.Register<ICheckAccessService, CheckAccessService>();
             container.Register<IAccessService, AccessService>();
             container.Register<IDataContext, DataContext>(Lifestyle.Scoped);
+            container.Register<DbContext, DataContext>(Lifestyle.Scoped);
+            container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
+            container.Register<ISystemUnitOfWork, SystemUnitOfWork>(Lifestyle.Scoped);
             container.Register<IUserManager, UserManager>(Lifestyle.Scoped);
             container.Register<IRoleManager, RoleManager>(Lifestyle.Scoped);
             container.Register<IUserStore<User>, UserStore>(Lifestyle.Scoped);

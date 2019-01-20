@@ -11,6 +11,7 @@ namespace Security.Services
         Task<IdentityResult> CreateAsync(User user, string password);
         Task<IdentityResult> AddToRoleAsync(string userId, string role);
         Task<IList<string>> GetRolesAsync(string userId);
+        Task<User> FindByIdAsync(string userId);
 
     }
     public class UserManager : UserManager<User>, IUserManager

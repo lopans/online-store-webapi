@@ -19,6 +19,7 @@ namespace Security.Services
         Task<IEnumerable<RoleSpecialPermissionDTO>> GetRoleSpecialPermissions(IUnitOfWork uofw, string roleID);
         Task UpdatePermissionForRole(IUnitOfWork uofw, string entityType, string roleID, AccessModifier accessModifier, bool isEnabled);
         Task UpdateSpecialPermissionForRole(IUnitOfWork uofw, string roleID, int specialPermissionID, bool isEnabled);
+        Task<IEnumerable<string>> GetSpecialsForRoles(IUnitOfWork uofw, IEnumerable<string> roles);
     }
     public class AccessService : IAccessService
     {
@@ -144,6 +145,14 @@ namespace Security.Services
                 });
             }
             await uofw.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<string>> GetSpecialsForRoles(IUnitOfWork uofw, IEnumerable<string> roles)
+        {
+            return await uofw.GetRepository<RoleSpecialPermissions>().All()
+                .Where(x => !x.Hidden && roles.Contains(x.RoleID))
+                .Select(x => x.SpecialPermission.Title)
+                .Distinct()
+                .ToListAsync();
         }
     }
 }
