@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using WebApi.Models;
 using WebApi.Models.Category;
 
 namespace WebApi.Controllers
@@ -27,14 +28,15 @@ namespace WebApi.Controllers
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var ret = await _categoryService.GetAll(uofw).Select(x => new
+
+                var data = await _categoryService.GetAll(uofw).Select(x => new
                 {
                     ID = x.ID,
                     Title = x.Title,
                     x.Color,
                     FileID = x.Image != null ? (Guid?)x.Image.FileID : null
                 }).ToListAsync();
-                return Ok(ret);
+                return await WrapListViewResult(data, typeof(Category), uofw, _accessService);
             }
         }
 

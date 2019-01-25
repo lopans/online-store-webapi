@@ -15,6 +15,8 @@ namespace Security.Services
     public interface IAccessService
     {
         void ThrowIfNotInRole(string role);
+        Task<EntityPermissionSet> GetPermissionsForType<T>(IUnitOfWork uofw, T type, IEnumerable<string> roleIDs = null);
+
         Task<IEnumerable<EntityPermissionSet>> GetEntityPermissionsForRole(IUnitOfWork uofw, string roleID);
         Task<IEnumerable<RoleSpecialPermissionDTO>> GetRoleSpecialPermissions(IUnitOfWork uofw, string roleID);
         Task UpdatePermissionForRole(IUnitOfWork uofw, string entityType, string roleID, AccessModifier accessModifier, bool isEnabled);
@@ -153,6 +155,25 @@ namespace Security.Services
                 .Select(x => x.SpecialPermission.Title)
                 .Distinct()
                 .ToListAsync();
+        }
+
+        public async Task<EntityPermissionSet> GetPermissionsForType<T>(IUnitOfWork uofw, T type, IEnumerable<string> roleIDs = null)
+        {
+            roleIDs = roleIDs ?? await _userManager.GetRolesAsync(AppContext.UserID);
+
+            var typeName = typeof(T).FullName;
+            var accessModifiers = await uofw.GetRepository<AccessLevel>().All()
+                .Where(x => roleIDs.Contains(x.RoleID) && x.Entity.TypeName == typeName)
+                .Select(x => new { x.AccessModifier })
+                .ToListAsync();
+            return new EntityPermissionSet()
+            {
+                Create = accessModifiers.Any(x => x.AccessModifier == AccessModifier.Create),
+                Update = accessModifiers.Any(x => x.AccessModifier == AccessModifier.Update),
+                Delete = accessModifiers.Any(x => x.AccessModifier == AccessModifier.Delete),
+                Read = accessModifiers.Any(x => x.AccessModifier == AccessModifier.Read),
+                EntityType = typeName
+            };
         }
     }
 }

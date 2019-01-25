@@ -40,9 +40,7 @@ namespace WebApi
                     AuthorizeEndpointPath = new PathString("/auth"),
                     AccessTokenExpireTimeSpan = TimeSpan.FromHours(8),
                     RefreshTokenProvider = new ApplicationRefreshTokenProvider(),
-                    Provider = new OAuthServerProvider(
-                        (ISystemUnitOfWork)config.DependencyResolver.GetService(typeof(ISystemUnitOfWork)),
-                        (IAccessService)config.DependencyResolver.GetService(typeof(IAccessService)))
+                    Provider = new OAuthServerProvider()
                 });
             }
 
