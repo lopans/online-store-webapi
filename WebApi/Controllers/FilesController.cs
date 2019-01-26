@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-//using System.Web.Mvc;
 
 namespace WebApi.Controllers
 {
@@ -19,12 +18,6 @@ namespace WebApi.Controllers
         public FilesController(IFileSystemService fileSystemService)
         {
             _fileSystemService = fileSystemService;
-        }
-        [HttpGet]
-        [Route("")]
-        public async Task<IHttpActionResult> All()
-        {
-            return Ok(new {a = "All" });
         }
 
         [HttpGet]

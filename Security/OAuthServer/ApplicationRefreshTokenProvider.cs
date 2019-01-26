@@ -1,12 +1,5 @@
-﻿using Base.Exceptions;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security.Infrastructure;
+﻿using Microsoft.Owin.Security.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Security.OAuthServer
 {
@@ -15,7 +8,7 @@ namespace Security.OAuthServer
         public override void Create(AuthenticationTokenCreateContext context)
         {
             // Expiration time in seconds
-            int expire = 5 * 60;
+            int expire = 30 * 24 * 60 * 60;
             context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddSeconds(expire));
             context.SetToken(context.SerializeTicket());
         }

@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebApi.Models;
 using WebApi.Models.Category;
 
 namespace WebApi.Controllers
@@ -54,7 +53,13 @@ namespace WebApi.Controllers
                         Title = model.Title,
                         ImageID = model.ImageID
                     });
-                return Ok(ret);
+
+                return Ok(new
+                {
+                    Color = ret.Color,
+                    ID = ret.ID,
+                    FileID = ret.Image != null ? (Guid?)ret.Image.FileID : null
+                });
             }
         }
 
