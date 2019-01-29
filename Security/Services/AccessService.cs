@@ -159,9 +159,15 @@ namespace Security.Services
 
         public async Task<EntityPermissionSet> GetPermissionsForType<T>(IUnitOfWork uofw, T type, IEnumerable<string> roleIDs = null)
         {
+            var typeName = typeof(T).FullName;
+
+            if (AppContext.UserID == null && roleIDs == null)
+                return EntityPermissionSet.FromReadOnly(typeName);
+            else if (roleIDs == null && await _userManager.IsInRoleAsync(AppContext.UserID, Roles.Admin))
+                return EntityPermissionSet.FromAll(typeName);
+
             roleIDs = roleIDs ?? await _userManager.GetRolesAsync(AppContext.UserID);
 
-            var typeName = typeof(T).FullName;
             var accessModifiers = await uofw.GetRepository<AccessLevel>().All()
                 .Where(x => roleIDs.Contains(x.RoleID) && x.Entity.TypeName == typeName)
                 .Select(x => new { x.AccessModifier })
