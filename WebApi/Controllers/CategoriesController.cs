@@ -33,7 +33,9 @@ namespace WebApi.Controllers
                     ID = x.ID,
                     Title = x.Title,
                     x.Color,
-                    FileID = x.Image != null ? (Guid?)x.Image.FileID : null
+                    FileID = x.Image != null ? (Guid?)x.Image.FileID : null,
+                    FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
+                    x.RowVersion
                 }).ToListAsync();
                 return await WrapListViewResult(data, typeof(Category), uofw, _accessService);
             }
@@ -60,6 +62,26 @@ namespace WebApi.Controllers
                     ID = ret.ID,
                     FileID = ret.Image != null ? (Guid?)ret.Image.FileID : null
                 });
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("update")]
+        public async Task<IHttpActionResult> Update(UpdateModel model)
+        {
+            using (var uofw = CreateUnitOfWork)
+            {
+                var ret = _categoryService.Update(uofw,
+                    new Category()
+                    {
+                        Color = model.Color,
+                        Title = model.Title,
+                        ImageID = model.ImageID,
+                        ID = model.ID,
+                        RowVersion = model.RowVersion
+                    });
+                return Ok(ret);
             }
         }
 

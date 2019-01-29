@@ -242,6 +242,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Category\UpdateModel.cs" />
     <Compile Include="Models\Category\CreateModel.cs" />
     <Compile Include="Models\ListViewData.cs" />
     <Compile Include="Models\SpecialPermissionUpdateModel.cs" />
