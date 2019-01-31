@@ -13,7 +13,6 @@ namespace Security.Services
         Task<IList<string>> GetRolesAsync(string userId);
         Task<bool> IsInRoleAsync(string userId, string role);
         Task<User> FindByIdAsync(string userId);
-        Task<bool> IsInRoleAsync(string userId, string role);
 
     }
     public class UserManager : UserManager<User>, IUserManager

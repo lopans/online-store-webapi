@@ -85,5 +85,17 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("delete")]
+        public async Task<IHttpActionResult> Delete([FromUri]int id)
+        {
+            using (var uofw = CreateUnitOfWork)
+            {
+                _categoryService.Delete(uofw, id);
+                return Ok();
+            }
+        }
+
     }
 }
