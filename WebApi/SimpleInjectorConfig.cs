@@ -22,6 +22,7 @@ namespace WebApi
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
+            //container.RegisterInstance(container);
             // Register your types, for instance using the scoped lifestyle:
             #region DATA
             container.Register(typeof(IBaseService<>), typeof(BaseService<>));

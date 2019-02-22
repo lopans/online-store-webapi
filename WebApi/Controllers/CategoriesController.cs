@@ -22,8 +22,8 @@ namespace WebApi.Controllers
             _categoryService = categoryService;
         }
         [HttpGet]
-        [Route("get")]
-        public async Task<IHttpActionResult> Get()
+        [Route("getAll")]
+        public async Task<IHttpActionResult> GetAll()
         {
             using (var uofw = CreateUnitOfWork)
             {
@@ -33,11 +33,37 @@ namespace WebApi.Controllers
                     ID = x.ID,
                     Title = x.Title,
                     x.Color,
-                    FileID = x.Image != null ? (Guid?)x.Image.FileID : null,
+                    ImageID = x.Image != null ? (Guid?)x.Image.FileID : null,
                     FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
+                    x.Description,
                     x.RowVersion
                 }).ToListAsync();
                 return await WrapListViewResult(data, typeof(Category), uofw, _accessService);
+            }
+        }
+
+        [HttpGet]
+        [Route("get")]
+        public async Task<IHttpActionResult> Get(int id)
+        {
+            using (var uofw = CreateUnitOfWork)
+            {
+
+                var data = await _categoryService.GetAll(uofw)
+                    .Where(x => x.ID == id)
+                    .Select(x => new
+                {
+                    ID = x.ID,
+                    Title = x.Title,
+                    x.Color,
+                    x.Description,
+                    ImageID = x.Image != null ? (Guid?)x.Image.FileID : null,
+                    FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
+                    x.RowVersion
+                }).SingleOrDefaultAsync();
+                if (data == null)
+                    return NotFound();
+                return Ok(data);
             }
         }
 
@@ -52,35 +78,35 @@ namespace WebApi.Controllers
                     new Category()
                     {
                         Color = model.Color,
+                        Description = model.Description,
                         Title = model.Title,
                         ImageID = model.ImageID
                     });
 
-                return Ok(new
-                {
-                    Color = ret.Color,
-                    ID = ret.ID,
-                    FileID = ret.Image != null ? (Guid?)ret.Image.FileID : null
-                });
+                return Ok(ret);
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("update")]
-        public async Task<IHttpActionResult> Update(UpdateModel model)
+        public async Task<IHttpActionResult> Update(Category model)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var ret = _categoryService.Update(uofw,
-                    new Category()
-                    {
-                        Color = model.Color,
-                        Title = model.Title,
-                        ImageID = model.ImageID,
-                        ID = model.ID,
-                        RowVersion = model.RowVersion
-                    });
+                var imgID = await _categoryService.GetAll(uofw)
+                    .Where(x => x.ID == model.ID)
+                    .Select(x => x.ImageID).SingleAsync();
+                    
+                var ret = _categoryService.Update(uofw, new Category()
+                {
+                    Color = model.Color,
+                    Description = model.Description,
+                    Title = model.Title,
+                    ID = model.ID,
+                    RowVersion = model.RowVersion,
+                    ImageID = model.ImageID ?? imgID
+                });
                 return Ok(ret);
             }
         }

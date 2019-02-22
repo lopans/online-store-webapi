@@ -1,6 +1,7 @@
 ﻿using Base.DAL;
 using Base.Services.Media;
 using System;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -22,19 +23,31 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("get")]
-        public async Task<HttpResponseMessage> GetFile(Guid? fileid)
+        public async Task<HttpResponseMessage> GetFile(string fileid)
         {
+            if (fileid == null)
+                throw new FileNotFoundException();
+            int id = 0;
+            Guid guid = Guid.Empty;
+            if (!Guid.TryParse(fileid, out guid))
+                if (!int.TryParse(fileid, out id))
+                    throw new FileNotFoundException();
+
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             using (var suofw = CreateSystemUnitOfWork)
             {
                 Stream stream;
                 try
                 {
-                    if (!fileid.HasValue)
+                    if (id > 0)
+                        guid = (await suofw.GetRepository<FileData>().All()
+                            .Where(x => x.ID == id)
+                            .SingleOrDefaultAsync())?.FileID ?? Guid.Empty;
+                    if (guid == Guid.Empty)
                         throw new FileNotFoundException();
-                    stream = await _fileSystemService.GetFile(fileid.Value, suofw);
+                    stream = await _fileSystemService.GetFile(guid, suofw);
                 }
-                catch(FileNotFoundException fex)
+                catch (FileNotFoundException)
                 {
                     stream = File.Open(_fileSystemService.DefaultImagePath, FileMode.Open);
                 }
@@ -75,7 +88,7 @@ namespace WebApi.Controllers
                 }
                 response.Content = new StringContent(ret.ID.ToString());
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 response.StatusCode = (HttpStatusCode)500;
             }
