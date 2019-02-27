@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApi.Models.Category;
+using WebApi.SignalR;
 
 namespace WebApi.Controllers
 {
@@ -38,6 +39,7 @@ namespace WebApi.Controllers
                     x.Description,
                     x.RowVersion
                 }).ToListAsync();
+                StoreHub.SayHello();
                 return await WrapListViewResult(data, typeof(Category), uofw, _accessService);
             }
         }

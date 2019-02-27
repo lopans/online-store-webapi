@@ -47,6 +47,7 @@ namespace WebApi
             // token consumption
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             app.UseWebApi(WebApiConfig.Register(config));
+            app.MapSignalR();
             MigrateDB();
         }
 
